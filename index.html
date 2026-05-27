@@ -1,1 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorldCup Manager — Every Manager. Every Nation. One Goal.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#d4a030;--gold2:#c8911a;--gold-dim:#8a6010;--gold-faint:#2a1c04;
+  --cream:#f2ead8;--bg:#060504;--bg2:#0d0b08;--bg3:#131008;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'Oswald',sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.35}
 
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:linear-gradient(180deg,#060504f0,transparent);backdrop-filter:blur(4px)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--cream)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:12px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-x{font-size:12px;font-weight:400;letter-spacing:.2em;color:var(--gold);text-decoration:none;border:1px solid #c8911a40;padding:6px 16px;transition:background .2s}
+.nav-x:hover{background:#c8911a15}
+
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:40px 20px}
+.hero-glow{position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);width:1000px;height:700px;background:radial-gradient(ellipse,#c8911a1a 0%,#b07a0808 40%,transparent 70%);pointer-events:none}
+.hero-glow-top{position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,#c8911a0c 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(0deg,transparent 95%,#c8a04006 100%),linear-gradient(90deg,transparent 95%,#c8a04004 100%);background-size:80px 80px;pointer-events:none}
+.corners{position:absolute;inset:0;pointer-events:none}
+.corner-svg{position:absolute;width:60px;height:60px}
+.corner-svg.tl{top:24px;left:24px}.corner-svg.tr{top:24px;right:24px;transform:scaleX(-1)}.corner-svg.bl{bottom:24px;left:24px;transform:scaleY(-1)}.corner-svg.br{bottom:24px;right:24px;transform:scale(-1)}
+.side-line{position:absolute;top:15%;width:1px;height:70%;background:linear-gradient(180deg,transparent,#c8911a40,#c8911a60,#c8911a40,transparent);pointer-events:none}
+.side-line.left{left:48px}.side-line.right{right:48px}
+.hero-label{font-size:12px;font-weight:300;letter-spacing:.6em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;animation:fadeUp 1s ease both}
+.hero-trophy{margin-bottom:16px;animation:fadeUp 1s ease .1s both}
+.hero-trophy svg{width:64px;height:64px;filter:drop-shadow(0 0 20px #c8911a60)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,12vw,130px);line-height:.88;text-align:center;letter-spacing:.04em;animation:fadeUp 1s ease .2s both}
+.hero-title .white{color:var(--cream);text-shadow:0 0 80px #c8911a20}
+.hero-title .gold{color:var(--gold);text-shadow:0 0 60px #c8911a40}
+.hero-divider{width:280px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:24px 0;animation:fadeUp 1s ease .3s both}
+.hero-sub{font-size:13px;font-weight:300;letter-spacing:.5em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:40px;animation:fadeUp 1s ease .35s both}
+.hero-stats{display:flex;border:1px solid #c8911a25;margin-bottom:48px;animation:fadeUp 1s ease .4s both}
+.hero-stat{padding:16px 32px;text-align:center;border-right:1px solid #c8911a20}
+.hero-stat:last-child{border-right:none}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);line-height:1;display:block}
+.hero-stat-lbl{font-size:10px;font-weight:300;letter-spacing:.35em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-top:4px}
+.hero-cta{display:flex;gap:16px;animation:fadeUp 1s ease .5s both}
+.btn-gold{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--bg);background:linear-gradient(135deg,var(--gold),#b07820);border:none;padding:14px 32px;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s;display:inline-block}
+.btn-gold:hover{opacity:.85;transform:translateY(-1px)}
+.btn-outline{font-family:'Oswald',sans-serif;font-size:13px;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gold2);padding:14px 32px;cursor:pointer;text-decoration:none;transition:background .2s,transform .2s;display:inline-block}
+.btn-outline:hover{background:#c8911a12;transform:translateY(-1px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.section-label{font-size:11px;font-weight:300;letter-spacing:.6em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:16px}
+.section-label::before,.section-label::after{content:'';flex:1;height:1px}
+.section-label::before{background:linear-gradient(90deg,transparent,#c8911a30)}
+.section-label::after{background:linear-gradient(90deg,#c8911a30,transparent)}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);letter-spacing:.04em;text-align:center;margin-bottom:8px}
+.section-title .gold{color:var(--gold)}
+
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:6px;animation:pulse 2s infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 #4ade8060}50%{opacity:.7;box-shadow:0 0 0 4px #4ade8000}}
+.badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;padding:4px 10px}
+.badge.live{color:#4ade80;border:1px solid #4ade8040;background:#4ade8010}
+.badge.soon{color:var(--gold-dim);border:1px solid #c8911a25;background:#c8911a08}
+
+.lb-wrap{overflow-x:auto}
+.lb-table{width:100%;border-collapse:collapse}
+.lb-table thead tr{border-bottom:1px solid #c8911a30}
+.lb-table thead th{font-size:10px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);padding:12px 16px;text-align:left;white-space:nowrap}
+.lb-table thead th.right{text-align:right}
+.lb-row{border-bottom:1px solid #c8911a12;transition:background .15s}
+.lb-row:hover{background:#c8911a08}
+.lb-row td{padding:16px;vertical-align:middle}
+.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold-dim);width:48px;text-align:center}
+.lb-rank.r1{color:#ffd700}.lb-rank.r2{color:#c0c0c0}.lb-rank.r3{color:#cd7f32}
+.lb-flag{font-size:26px;width:44px;text-align:center}
+.lb-name{font-family:'Bebas Neue',sans-serif;font-size:21px;color:var(--cream);letter-spacing:.04em;display:block}
+.lb-nation{font-size:11px;font-weight:300;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase}
+.lb-ticker{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold2);letter-spacing:.05em;white-space:nowrap}
+.lb-mcap{text-align:right}
+.lb-mcap-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cream);display:block}
+.lb-mcap-usd{font-size:11px;font-weight:300;color:var(--gold-dim);letter-spacing:.1em}
+.lb-status{text-align:right}
+.lb-link{text-align:right}
+.lb-link a{font-size:11px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);text-decoration:none;border:1px solid #c8911a30;padding:5px 12px;transition:background .15s;white-space:nowrap}
+.lb-link a:hover{background:#c8911a15}
+.lb-link .no-link{font-size:11px;color:#3a2a0a;letter-spacing:.1em}
+
+.status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding:12px 16px;border:1px solid #c8911a20;background:var(--bg2);flex-wrap:wrap;gap:12px}
+.status-bar-left{font-size:12px;font-weight:300;letter-spacing:.2em;color:var(--gold-dim)}
+.status-bar-left span{color:var(--gold)}
+#last-updated{color:var(--gold-dim)}
+
+.lb-loading{text-align:center;padding:60px 20px}
+.lb-loading-text{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold-dim);letter-spacing:.1em;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+.lb-error{text-align:center;padding:40px;font-size:13px;font-weight:300;color:#8a4030;letter-spacing:.1em;line-height:1.8}
+
+.roadmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:#c8911a15;border:1px solid #c8911a20;margin-top:48px}
+.roadmap-item{background:var(--bg);padding:22px 16px;text-align:center;transition:background .2s;position:relative;overflow:hidden}
+.roadmap-item:hover{background:var(--bg2)}
+.roadmap-item.live-item{background:#0d0b06}
+.roadmap-item.live-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.roadmap-num{font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--gold-dim);letter-spacing:.2em;margin-bottom:6px}
+.roadmap-flag{font-size:28px;margin-bottom:6px}
+.roadmap-name{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--cream);letter-spacing:.03em}
+.roadmap-ticker{font-size:11px;font-weight:300;color:var(--gold2);letter-spacing:.15em;margin-top:3px}
+.roadmap-status{margin-top:8px}
+
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:#c8911a10;margin-top:48px}
+.how-card{background:var(--bg);padding:36px 28px;position:relative}
+.how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#c8911a40,transparent)}
+.how-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--gold-faint);line-height:1;margin-bottom:12px}
+.how-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:.04em;margin-bottom:10px}
+.how-desc{font-size:14px;font-weight:300;color:#8a7a5a;line-height:1.7;letter-spacing:.03em}
+
+footer{border-top:1px solid #c8911a20;padding:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.06em;color:var(--cream)}
+.footer-logo span{color:var(--gold)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:11px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:11px;font-weight:300;letter-spacing:.15em;color:#3a2a0a}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  nav{padding:12px 20px}.nav-links{display:none}
+  section{padding:60px 20px}
+  .hero-stats{flex-wrap:wrap}.hero-stat{padding:12px 16px}
+  footer{flex-direction:column;text-align:center}
+  .lb-ticker,.lb-link{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">WORLDCUP <span>MANAGER</span></div>
+  <div class="nav-links">
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#how">How it works</a>
+  </div>
+  <a href="https://x.com/WCUP_Managers" target="_blank" class="nav-x">𝕏 Follow</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-top"></div>
+  <div class="corners">
+    <svg class="corner-svg tl" viewBox="0 0 60 60" fill="none"><line x1="1" y1="59" x2="1" y2="1" stroke="#c8911a" stroke-width="1"/><line x1="1" y1="1" x2="59" y2="1" stroke="#c8911a" stroke-width="1"/></svg>
+    <svg class="corner-svg tr" viewBox="0 0 60 60" fill="none"><line x1="1" y1="59" x2="1" y2="1" stroke="#c8911a" stroke-width="1"/><line x1="1" y1="1" x2="59" y2="1" stroke="#c8911a" stroke-width="1"/></svg>
+    <svg class="corner-svg bl" viewBox="0 0 60 60" fill="none"><line x1="1" y1="59" x2="1" y2="1" stroke="#c8911a" stroke-width="1"/><line x1="1" y1="1" x2="59" y2="1" stroke="#c8911a" stroke-width="1"/></svg>
+    <svg class="corner-svg br" viewBox="0 0 60 60" fill="none"><line x1="1" y1="59" x2="1" y2="1" stroke="#c8911a" stroke-width="1"/><line x1="1" y1="1" x2="59" y2="1" stroke="#c8911a" stroke-width="1"/></svg>
+  </div>
+  <div class="side-line left"></div>
+  <div class="side-line right"></div>
+  <div class="hero-label">The first Solana collection of World Cup managers</div>
+  <div class="hero-trophy">
+    <svg viewBox="0 0 64 64" fill="none">
+      <path d="M32 8C32 8 19 10 17 23C15 36 24 42 32 46C40 42 49 36 47 23C45 10 32 8 32 8Z" fill="#c8911a" opacity=".95"/>
+      <path d="M17 16L9 16L9 23C9 30 13 33 17 33" stroke="#c8911a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M47 16L55 16L55 23C55 30 51 33 47 33" stroke="#c8911a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="28" y="46" width="8" height="10" fill="#c8911a" opacity=".8"/>
+      <rect x="21" y="56" width="22" height="4" rx="1" fill="#c8911a"/>
+      <path d="M32 22L33.8 27.4H39.5L35 30.6L36.8 36L32 32.8L27.2 36L29 30.6L24.5 27.4H30.2Z" fill="#f0d060"/>
+    </svg>
+  </div>
+  <h1 class="hero-title"><span class="white">WORLDCUP</span><br><span class="gold">MANAGER</span></h1>
+  <div class="hero-divider"></div>
+  <div class="hero-sub">Every Manager · Every Nation · One Goal</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num" id="stat-live">0</span><span class="hero-stat-lbl">Live</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">32</span><span class="hero-stat-lbl">Total</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">1</span><span class="hero-stat-lbl">Community</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">1</span><span class="hero-stat-lbl">Champion</span></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#leaderboard" class="btn-gold">View Leaderboard</a>
+    <a href="https://x.com/WCUP_Managers" target="_blank" class="btn-outline">Follow on 𝕏</a>
+  </div>
+</div>
+
+<div style="background:linear-gradient(180deg,var(--bg),var(--bg2));padding:0 0 80px">
+<section id="leaderboard">
+  <div class="leaderboard-header reveal" style="text-align:center;margin-bottom:40px">
+    <div class="section-label">Live Rankings</div>
+    <h2 class="section-title">MANAGER <span class="gold">LEADERBOARD</span></h2>
+    <p style="font-size:13px;font-weight:300;color:var(--gold-dim);letter-spacing:.15em;margin-top:8px">
+      <span class="pulse"></span> Auto-detected from dev wallet · DexScreener market caps
+    </p>
+  </div>
+  <div class="status-bar reveal" style="transition-delay:.05s">
+    <div class="status-bar-left">Dev wallet: <span>GjwQjgp...8UCV</span></div>
+    <div class="status-bar-right">Last sync: <span id="last-updated">—</span></div>
+  </div>
+  <div class="lb-wrap reveal" style="transition-delay:.1s">
+    <div id="lb-container">
+      <div class="lb-loading"><div class="lb-loading-text">SCANNING WALLET...</div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div style="background:var(--bg)">
+<section id="roadmap" style="border-top:1px solid #c8911a12">
+  <div class="reveal" style="text-align:center">
+    <div class="section-label">The Collection</div>
+    <h2 class="section-title">32 <span class="gold">MANAGERS</span></h2>
+  </div>
+  <div class="roadmap-grid reveal" id="roadmap-grid" style="transition-delay:.15s"></div>
+</section>
+</div>
+
+<div style="background:var(--bg2)">
+<section id="how" style="border-top:1px solid #c8911a12">
+  <div class="reveal" style="text-align:center">
+    <div class="section-label">The System</div>
+    <h2 class="section-title">HOW IT <span class="gold">WORKS</span></h2>
+  </div>
+  <div class="how-grid reveal" style="transition-delay:.1s">
+    <div class="how-card"><div class="how-num">01</div><div class="how-title">Collect</div><div class="how-desc">32 manager coins drop one by one during the World Cup. Each coin represents a real national team coach, launched on Solana via pump.fun.</div></div>
+    <div class="how-card"><div class="how-num">02</div><div class="how-title">Hold & Earn</div><div class="how-desc">Top 50 holders of each coin receive an airdrop of the next manager's coin before public launch. Hold to secure your spot.</div></div>
+    <div class="how-card"><div class="how-num">03</div><div class="how-title">Compete</div><div class="how-desc">Watch the leaderboard evolve in real time. Which manager coin reaches the highest market cap? Back your champion.</div></div>
+    <div class="how-card"><div class="how-num">04</div><div class="how-title">One Champion</div><div class="how-desc">The coin tied to the World Cup winning nation becomes the ultimate trophy. Community decides the legend.</div></div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-logo">WORLDCUP <span>MANAGER</span></div>
+  <div class="footer-links">
+    <a href="https://x.com/WCUP_Managers" target="_blank">𝕏 Twitter</a>
+    <a href="https://pump.fun" target="_blank">pump.fun</a>
+  </div>
+  <div class="footer-copy">© 2026 WorldCup Manager · Built on Solana</div>
+</footer>
+
+<script>
+const DEV_WALLET = 'GjwQjgpmkkjCnANg5GaDzP3aujpsaoPBcngWhyuE8UCV';
+const HELIUS_KEY = '997203f4-3c0c-4c05-9f8e-09de3cfecdbc';
+const HELIUS_RPC = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_KEY}`;
+const TOTAL_SLOTS = 32;
+
+// ── STEP 1: Get signatures via Helius RPC (CORS-friendly) ──
+async function getSignatures() {
+  const res = await fetch(HELIUS_RPC, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1,
+      method: 'getSignaturesForAddress',
+      params: [DEV_WALLET, { limit: 100 }]
+    })
+  });
+  const data = await res.json();
+  return (data.result || []).map(s => s.signature);
+}
+
+// ── STEP 2: Get transactions in batch ──
+async function getTransactions(sigs) {
+  const res = await fetch(HELIUS_RPC, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1,
+      method: 'getTransactions',
+      params: [sigs, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0 }]
+    })
+  });
+  const data = await res.json();
+  return data.result || [];
+}
+
+// ── STEP 3: Extract mint addresses from transactions ──
+function extractMints(txs) {
+  const mints = new Set();
+  const PUMP_PROGRAM = '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P';
+  const TOKEN_PROGRAM = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
+
+  for (const tx of txs) {
+    if (!tx) continue;
+    const instructions = tx.transaction?.message?.instructions || [];
+    const accountKeys = tx.transaction?.message?.accountKeys || [];
+
+    for (const ix of instructions) {
+      // pump.fun create coin
+      if (ix.programId === PUMP_PROGRAM) {
+        // On pump.fun, the mint is typically the first account that isn't the dev wallet or system program
+        for (const acc of accountKeys) {
+          const key = acc.pubkey || acc;
+          if (key !== DEV_WALLET &&
+              key !== '11111111111111111111111111111111' &&
+              key !== PUMP_PROGRAM &&
+              key !== TOKEN_PROGRAM &&
+              key !== 'SysvarRent111111111111111111111111111111111' &&
+              key.length === 44) {
+            mints.add(key);
+          }
+        }
+      }
+      // Standard token mint init
+      if (ix.programId === TOKEN_PROGRAM && ix.parsed?.type === 'initializeMint') {
+        mints.add(ix.parsed.info.mint);
+      }
+    }
+
+    // postTokenBalances owned by dev wallet
+    const postBals = tx.meta?.postTokenBalances || [];
+    for (const bal of postBals) {
+      if (bal.owner === DEV_WALLET && bal.mint) mints.add(bal.mint);
+    }
+  }
+  return [...mints];
+}
+
+// ── STEP 4: Fetch DexScreener for token data + mcap ──
+async function fetchDexData(mints) {
+  if (!mints.length) return [];
+  const tokens = [];
+  // DexScreener allows up to 30 addresses per call
+  for (let i = 0; i < mints.length; i += 30) {
+    const chunk = mints.slice(i, i + 30);
+    try {
+      const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${chunk.join(',')}`);
+      const data = await res.json();
+      if (!data.pairs) continue;
+
+      // Group by mint, keep best liquidity pair
+      const byMint = {};
+      for (const pair of data.pairs) {
+        const mint = pair.baseToken?.address;
+        if (!mint) continue;
+        if (!byMint[mint] || (pair.liquidity?.usd || 0) > (byMint[mint].liquidity?.usd || 0)) {
+          byMint[mint] = pair;
+        }
+      }
+
+      for (const [mint, pair] of Object.entries(byMint)) {
+        tokens.push({
+          address: mint,
+          name: pair.baseToken?.name || 'Unknown',
+          symbol: pair.baseToken?.symbol || '?',
+          mcap: pair.fdv || pair.marketCap || 0,
+          priceUsd: parseFloat(pair.priceUsd || '0'),
+          change24h: pair.priceChange?.h24 || 0,
+          volume24h: pair.volume?.h24 || 0,
+          pumpLink: `https://pump.fun/${mint}`,
+          dexLink: pair.url || `https://dexscreener.com/solana/${mint}`,
+        });
+      }
+    } catch {}
+  }
+  return tokens;
+}
+
+// ── ALSO: Use Helius enhanced API to get token metadata ──
+async function enrichWithHelius(tokens) {
+  if (!tokens.length) return tokens;
+  try {
+    const mints = tokens.map(t => t.address);
+    const res = await fetch(`https://api.helius.xyz/v0/token-metadata?api-key=${HELIUS_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mintAccounts: mints, includeOffChain: true, disableCache: false })
+    });
+    const meta = await res.json();
+    if (!Array.isArray(meta)) return tokens;
+
+    const metaMap = {};
+    for (const m of meta) {
+      if (m.account) metaMap[m.account] = m;
+    }
+
+    return tokens.map(t => {
+      const m = metaMap[t.address];
+      if (!m) return t;
+      const onchain = m.onChainMetadata?.metadata?.data;
+      const offchain = m.offChainMetadata?.metadata;
+      return {
+        ...t,
+        name: onchain?.name || offchain?.name || t.name,
+        symbol: onchain?.symbol || offchain?.symbol || t.symbol,
+        image: offchain?.image || null,
+      };
+    });
+  } catch { return tokens; }
+}
+
+// ── FORMAT ──
+function formatMcap(v) {
+  if (!v || v === 0) return { main: '—', sub: '' };
+  if (v >= 1_000_000) return { main: (v/1_000_000).toFixed(2)+'M', sub: '$'+Math.round(v).toLocaleString() };
+  if (v >= 1_000)     return { main: (v/1_000).toFixed(1)+'K',    sub: '$'+Math.round(v).toLocaleString() };
+  return { main: '$'+v.toFixed(0), sub: '' };
+}
+
+function changeColor(v) {
+  if (v > 0) return '#4ade80';
+  if (v < 0) return '#f87171';
+  return 'var(--gold-dim)';
+}
+
+function timeNow() {
+  return new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+
+// ── RENDER LEADERBOARD ──
+function renderLeaderboard(tokens) {
+  document.getElementById('stat-live').textContent = tokens.length;
+  const sorted = [...tokens].sort((a,b) => b.mcap - a.mcap);
+
+  let html = `<table class="lb-table">
+    <thead><tr>
+      <th style="width:48px">#</th>
+      <th style="width:44px"></th>
+      <th>Token</th>
+      <th>Ticker</th>
+      <th class="right">Market Cap</th>
+      <th class="right">24h</th>
+      <th class="right">Status</th>
+      <th class="right">Trade</th>
+    </tr></thead><tbody>`;
+
+  sorted.forEach((t, i) => {
+    const rank = i + 1;
+    const rc = rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
+    const mcap = formatMcap(t.mcap);
+    const chg = t.change24h;
+    const chgStr = chg > 0 ? `+${chg.toFixed(1)}%` : `${chg.toFixed(1)}%`;
+    html += `<tr class="lb-row">
+      <td class="lb-rank ${rc}">${rank}</td>
+      <td class="lb-flag">${t.image ? `<img src="${t.image}" style="width:32px;height:32px;border-radius:50%;object-fit:cover">` : '🪙'}</td>
+      <td>
+        <span class="lb-name">${t.name}</span>
+        <span class="lb-nation">${t.address.slice(0,6)}...${t.address.slice(-4)}</span>
+      </td>
+      <td class="lb-ticker">$${t.symbol}</td>
+      <td class="lb-mcap">
+        <span class="lb-mcap-val">${mcap.main}</span>
+        <span class="lb-mcap-usd">${mcap.sub}</span>
+      </td>
+      <td style="text-align:right;font-family:'Bebas Neue',sans-serif;font-size:18px;color:${changeColor(chg)}">${chgStr}</td>
+      <td class="lb-status"><span class="badge live"><span class="pulse"></span>Live</span></td>
+      <td class="lb-link"><a href="${t.pumpLink}" target="_blank">Trade ↗</a></td>
+    </tr>`;
+  });
+
+  // Coming soon slots
+  const soon = Math.max(0, TOTAL_SLOTS - tokens.length);
+  for (let i = 0; i < soon; i++) {
+    const rank = tokens.length + i + 1;
+    html += `<tr class="lb-row" style="opacity:.35">
+      <td class="lb-rank">${rank}</td>
+      <td class="lb-flag" style="color:#2a1c04;font-size:20px">?</td>
+      <td><span class="lb-name" style="color:#3a2a0a">— Coming Soon —</span><span class="lb-nation">Not yet launched</span></td>
+      <td class="lb-ticker" style="color:#2a1c04">—</td>
+      <td class="lb-mcap"><span class="lb-mcap-val" style="color:#2a1c04">—</span></td>
+      <td></td>
+      <td class="lb-status"><span class="badge soon">Soon</span></td>
+      <td class="lb-link"><span class="no-link">—</span></td>
+    </tr>`;
+  }
+
+  html += '</tbody></table>';
+  document.getElementById('lb-container').innerHTML = html;
+  document.getElementById('last-updated').textContent = timeNow();
+}
+
+// ── RENDER ROADMAP ──
+function renderRoadmap(tokens) {
+  const sorted = [...tokens].sort((a,b) => b.mcap - a.mcap);
+  let html = '';
+  sorted.forEach((t, i) => {
+    html += `<div class="roadmap-item live-item">
+      <div class="roadmap-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="roadmap-flag">${t.image ? `<img src="${t.image}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">` : '🪙'}</div>
+      <div class="roadmap-name">${t.name}</div>
+      <div class="roadmap-ticker">$${t.symbol}</div>
+      <div class="roadmap-status"><span class="badge live"><span class="pulse"></span>Live</span></div>
+    </div>`;
+  });
+  const soon = Math.max(0, TOTAL_SLOTS - tokens.length);
+  for (let i = 0; i < soon; i++) {
+    html += `<div class="roadmap-item">
+      <div class="roadmap-num">${String(tokens.length+i+1).padStart(2,'0')}</div>
+      <div class="roadmap-flag" style="color:#2a1c04;font-size:24px">?</div>
+      <div class="roadmap-name" style="color:#3a2a0a">Mystery</div>
+      <div class="roadmap-ticker" style="color:#2a1c04">—</div>
+      <div class="roadmap-status"><span class="badge soon">Soon</span></div>
+    </div>`;
+  }
+  document.getElementById('roadmap-grid').innerHTML = html;
+}
+
+function showError(msg) {
+  document.getElementById('lb-container').innerHTML = `<div class="lb-error">${msg}</div>`;
+}
+
+// ── MAIN SYNC ──
+async function sync() {
+  try {
+    document.getElementById('last-updated').textContent = 'syncing...';
+
+    // 1. Get recent signatures
+    const sigs = await getSignatures();
+    if (!sigs.length) { renderLeaderboard([]); renderRoadmap([]); return; }
+
+    // 2. Get transactions in batches of 20
+    const allTxs = [];
+    for (let i = 0; i < Math.min(sigs.length, 60); i += 20) {
+      const batch = sigs.slice(i, i+20);
+      const txs = await getTransactions(batch);
+      allTxs.push(...txs);
+    }
+
+    // 3. Extract mints
+    const mints = extractMints(allTxs);
+
+    // 4. Fetch DexScreener data
+    let tokens = await fetchDexData(mints);
+
+    // 5. Enrich with Helius metadata
+    tokens = await enrichWithHelius(tokens);
+
+    // 6. Render
+    renderLeaderboard(tokens);
+    renderRoadmap(tokens);
+
+  } catch(e) {
+    console.error('Sync error:', e);
+    showError(`Sync failed: ${e.message}<br><br>Check console for details. The site will retry in 60s.`);
+    document.getElementById('last-updated').textContent = 'error';
+  }
+}
+
+// Init + auto-refresh
+sync();
+setInterval(sync, 60000);
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
