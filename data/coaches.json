@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "name": "Didier Deschamps",
-    "country": "France",
-    "flag": "🇫🇷",
-    "score": 87,
-    "image": "",
-    "tweetUrl": "",
+    "name": "Ronald Koeman",
+    "country": "Netherland",
+    "flag": "NL",
+    "score": 94,
+    "image": "https://x.com/WCUP_Managers/status/2059669719234257042/photo/1",
+    "tweetUrl": "https://x.com/WCUP_Managers",
     "addedAt": "2026-05-27T10:00:00Z"
   }
 ]
