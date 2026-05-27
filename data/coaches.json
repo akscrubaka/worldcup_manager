@@ -21,12 +21,22 @@
   },
   {
     "id": 3,
-    "name": "JUlian Nagelsmann",
+    "name": "Julian Nagelsmann",
     "country": "Deutschland",
     "flag": "🇩🇪",
     "score": 88,
     "image": "https://x.com/WCUP_Managers/status/2059718751612760115/photo/1",
     "tweetUrl": "https://x.com/WCUP_Managers/status/2059718751612760115",
+    "addedAt": "2026-05-27T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Roberto Martinez",
+    "country": "Portugal",
+    "flag": "🇵🇹",
+    "score": 86,
+    "image": "https://x.com/WCUP_Managers/status/2059730452236173348/photo/1",
+    "tweetUrl": "https://x.com/WCUP_Managers/status/2059730452236173348",
     "addedAt": "2026-05-27T10:00:00Z"
   }
 ]
