@@ -10,3 +10,16 @@
     "addedAt": "2026-05-27T10:00:00Z"
   }
 ]
+
+[
+  {
+    "id": 2,
+    "name": "Javier Aguirre",
+    "country": "Mexico",
+    "flag": "🇲🇽",
+    "score": 82,
+    "image": "https://x.com/WCUP_Managers/status/2059697675423948889/photo/1",
+    "tweetUrl": "https://x.com/WCUP_Managers/status/2059697675423948889",
+    "addedAt": "2026-05-27T10:00:00Z"
+  }
+]
